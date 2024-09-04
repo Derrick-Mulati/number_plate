@@ -68,5 +68,5 @@ def main(image_path):
         print(f"Error: {e}")
 
 # Path to the image file
-image_path = 'path_to_image.png'
+image_path = 'path_to_image.jpeg'
 main(image_path)
