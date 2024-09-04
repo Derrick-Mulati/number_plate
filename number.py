@@ -32,15 +32,16 @@ def detect_number_plate(image, gray, cleaned):
         x, y, w, h = cv2.boundingRect(contour)
         aspect_ratio = w / h
         
-        # Filter contours based on aspect ratio to find number plates
-        if 2 < aspect_ratio < 5 and h > 20:  # Additional check on height to avoid small contours
+        # Filter contours based on aspect ratio and size to find number plates
+        if 3 < aspect_ratio < 6 and h > 30:  # Adjusted for Kenyan plates
             plate = gray[y:y+h, x:x+w]
             
             # Use Tesseract to extract text from the detected plate
-            plate_text = pytesseract.image_to_string(plate, config='--psm 8')
+            config = '--psm 8 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+            plate_text = pytesseract.image_to_string(plate, config=config)
             plate_text = plate_text.strip().replace('\n', '')
             
-            if plate_text:  # Check if OCR found any text
+            if plate_text and len(plate_text) > 5:  # Check for typical Kenyan plate length
                 detected_plates.append(plate_text)
                 print("Detected Number Plate:", plate_text)
                 
