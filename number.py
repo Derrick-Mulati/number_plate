@@ -1,5 +1,6 @@
 import cv2
 import pytesseract
+from matplotlib import pyplot as plt
 
 # Function to preprocess the image
 def preprocess_image(image_path):
@@ -59,14 +60,15 @@ def main(image_path):
         if not detected_plates:
             print("No number plates detected.")
         
-        # Display the result
-        cv2.imshow('Number Plate Recognition', result_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # Display the result using Matplotlib
+        plt.imshow(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB))
+        plt.title('Number Plate Recognition')
+        plt.axis('off')  # Hide axes
+        plt.show()
     
     except Exception as e:
         print(f"Error: {e}")
 
 # Path to the image file
-image_path = 'image.jpeg'
+image_path = 'path_to_image.jpeg'
 main(image_path)
